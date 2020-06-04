@@ -43,7 +43,7 @@ class MyWindow(QMainWindow, form_class):
             self.fileNameLabel.setText(fileName)
             filePath=os.path.splitext(fname[0])
             if filePath[-1]=='.xlsx':
-                read_excel(fname[0])
+                print(read_excel(fname[0]))
 
 
 

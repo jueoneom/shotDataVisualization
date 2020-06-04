@@ -32,22 +32,16 @@ class MyWindow(QWidget):
             self.doGraph1()
 
     def doGraph1(self):
-            x = np.arange(0, 10, 0.5)
-            y1 = np.sin(x)
-            y2 = np.cos(x)
-            
-            self.fig.clear()
-            ax = self.fig.add_subplot(111)
-            ax.plot(x, y1, label="sin(x)")
-            ax.plot(x, y2, label="cos(x)", linestyle="--")
-            
-            ax.set_xlabel("x")
-            ax.set_xlabel("y")
-            
-            ax.set_title("sin & cos")
-            ax.legend()
-            
-            self.canvas.draw()
+        X = np.arange(-5, 5, 0.25)
+        Y = np.arange(-5, 5, 0.25)
+        X, Y = np.meshgrid(X, Y)
+        Z = X**2 + Y**2
+        
+        self.fig.clear()
+        
+        ax = self.fig.gca(projection='3d')
+        # ax.plot_wireframe(X, Y, Z, color='black')
+        self.canvas.draw() 
             
 if __name__ == "__main__":
     app = QApplication(sys.argv)
