@@ -1,7 +1,7 @@
 import sys
 import os
 from loadFile import read_excel
-from loadFile import *
+from graphWidget import GraphWidget
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtCore import pyqtSlot
@@ -26,12 +26,11 @@ class MyWindow(QMainWindow, form_class):
         self.setupUi(self)
         self.setWindowTitle(self.title)
         self.label=self.fileNameLabel
-        self.figure=plt.Figure(figsize=(60,70))
-        self.canvas=FigureCanvas(self.figure)
-        self.toolBar=NavigationToolbar(self.canvas, self)
         
-               
-        self.canvas.draw()
+        self.figure=plt.Figure()
+        self.canvas=FigureCanvas(self.figure)
+        self.addToolBar(NavigationToolbar(self.canvas, self))
+        
         self.loadFileBtn.clicked.connect(self.loadFile_clicked)
     
     @pyqtSlot()
@@ -45,7 +44,10 @@ class MyWindow(QMainWindow, form_class):
             if filePath[-1]=='.xlsx':
                 print(read_excel(fname[0]))
 
-
+    def update_graph(self):
+        self.GraphWidget.canvas.axes.clear()
+        
+        self.GraphWidget.canvas.draw() 
 
 
 if __name__=="__main__":

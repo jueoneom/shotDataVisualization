@@ -49,7 +49,7 @@
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>10</height>
+         <height>40</height>
         </size>
        </property>
        <property name="maximumSize">
@@ -235,6 +235,20 @@
            </widget>
           </item>
           <item>
+           <widget class="QCheckBox" name="checkBox_5">
+            <property name="text">
+             <string>isPeople</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_6">
+            <property name="text">
+             <string>isInsert</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QCheckBox" name="checkBox_4">
             <property name="enabled">
              <bool>false</bool>
@@ -255,21 +269,11 @@
      <item>
       <widget class="QGroupBox" name="groupBox_2">
        <property name="title">
-        <string>해당 이미지</string>
+        <string>선택 데이터 정보</string>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="0">
-         <widget class="QLabel" name="label">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>150</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>TextLabel</string>
-          </property>
-         </widget>
+         <widget class="QListView" name="listView"/>
         </item>
        </layout>
       </widget>
