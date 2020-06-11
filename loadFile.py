@@ -11,6 +11,7 @@ def read_excel(fname):
                     convert_float=True)
     
     arr=df.to_numpy()
+    arr=arr.tolist()
     return arr
 
 

@@ -40,7 +40,7 @@ class MyWindow(QWidget):
         self.fig.clear()
         
         ax = self.fig.gca(projection='3d')
-        # ax.plot_wireframe(X, Y, Z, color='black')
+        ax.plot_wireframe(X, Y, Z, color='black')
         self.canvas.draw() 
             
 if __name__ == "__main__":

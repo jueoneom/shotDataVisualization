@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>804</width>
+    <width>924</width>
     <height>629</height>
    </rect>
   </property>
@@ -16,9 +16,9 @@
   <widget class="QSplitter" name="splitter">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>10</x>
      <y>10</y>
-     <width>764</width>
+     <width>901</width>
      <height>602</height>
     </rect>
    </property>
@@ -27,12 +27,24 @@
    </property>
    <widget class="QWidget" name="horizontalLayoutWidget">
     <layout class="QHBoxLayout" name="graphLayout">
-     <item>
-      <widget class="QWidget" name="graph" native="true">
+     <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+      <widget class="GraphWidget" name="GraphWidget" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
          <width>600</width>
          <height>600</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
         </size>
        </property>
       </widget>
@@ -40,7 +52,7 @@
     </layout>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget_2">
-    <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0,0,0,0,0,0">
+    <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0,0,0,0,0">
      <property name="sizeConstraint">
       <enum>QLayout::SetDefaultConstraint</enum>
      </property>
@@ -83,65 +95,31 @@
       </widget>
      </item>
      <item>
-      <widget class="QScrollArea" name="scrollArea">
+      <widget class="QLabel" name="fileNameLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="minimumSize">
         <size>
-         <width>0</width>
+         <width>280</width>
          <height>20</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
-         <width>16777215</width>
-         <height>40</height>
+         <width>100000</width>
+         <height>20</height>
         </size>
        </property>
        <property name="lineWidth">
-        <number>0</number>
+        <number>2</number>
        </property>
-       <property name="verticalScrollBarPolicy">
-        <enum>Qt::ScrollBarAlwaysOff</enum>
+       <property name="text">
+        <string/>
        </property>
-       <property name="horizontalScrollBarPolicy">
-        <enum>Qt::ScrollBarAlwaysOn</enum>
-       </property>
-       <property name="widgetResizable">
-        <bool>true</bool>
-       </property>
-       <widget class="QWidget" name="scrollAreaWidgetContents">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>148</width>
-          <height>44</height>
-         </rect>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_3">
-         <item row="0" column="0">
-          <widget class="QLabel" name="fileNameLabel">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>100000</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="lineWidth">
-            <number>2</number>
-           </property>
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
       </widget>
      </item>
      <item>
@@ -152,16 +130,9 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="okBtn_2">
+      <widget class="QPushButton" name="makeGraphBtn">
        <property name="text">
         <string>그래프 그리기</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="okBtn_3">
-       <property name="text">
-        <string>그래프 저장하기</string>
        </property>
       </widget>
      </item>
@@ -218,12 +189,18 @@
             <property name="text">
              <string>shot-size</string>
             </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
           <item>
            <widget class="QCheckBox" name="checkBox">
             <property name="text">
              <string>shot angle</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -232,6 +209,9 @@
             <property name="text">
              <string>subj-obj</string>
             </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
           <item>
@@ -239,12 +219,18 @@
             <property name="text">
              <string>isPeople</string>
             </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
           <item>
            <widget class="QCheckBox" name="checkBox_6">
             <property name="text">
              <string>isInsert</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -285,6 +271,14 @@
    </widget>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GraphWidget</class>
+   <extends>QWidget</extends>
+   <header>graphwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

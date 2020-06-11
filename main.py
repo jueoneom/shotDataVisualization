@@ -1,7 +1,6 @@
 import sys
 import os
 from loadFile import read_excel
-from graphWidget import GraphWidget
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtCore import pyqtSlot
@@ -26,12 +25,13 @@ class MyWindow(QMainWindow, form_class):
         self.setupUi(self)
         self.setWindowTitle(self.title)
         self.label=self.fileNameLabel
-        
-        self.figure=plt.Figure()
-        self.canvas=FigureCanvas(self.figure)
-        self.addToolBar(NavigationToolbar(self.canvas, self))
-        
+        self.data=[]
+        # self.figure=plt.Figure()
+        # self.canvas=FigureCanvas(self.figure)
+        self.addToolBar(NavigationToolbar(self.GraphWidget.canvas, self))
+
         self.loadFileBtn.clicked.connect(self.loadFile_clicked)
+        self.makeGraphBtn.clicked.connect(self.makeGraph_clicked)
     
     @pyqtSlot()
     def loadFile_clicked(self):
@@ -42,12 +42,29 @@ class MyWindow(QMainWindow, form_class):
             self.fileNameLabel.setText(fileName)
             filePath=os.path.splitext(fname[0])
             if filePath[-1]=='.xlsx':
-                print(read_excel(fname[0]))
+                self.data= read_excel(fname[0])
+                print(self.data)
 
-    def update_graph(self):
+
+    @pyqtSlot()
+    def makeGraph_clicked(self):
         self.GraphWidget.canvas.axes.clear()
-        
-        self.GraphWidget.canvas.draw() 
+        if not self.data:
+            return
+        else:
+            X = []
+            Y = []
+            Z=[]
+            # X, Y = np.meshgrid(X, Y)
+            # Z = X**2 + Y**3
+            for i in range(len(self.data)):
+                X.append(i)
+                Y.append(self.data[i][0])
+                Z.append(self.data[i][1])
+            
+            self.GraphWidget.canvas.axes.scatter(X,Y,Z,color='red')
+            # self.GraphWidget.canvas.axes.set_axis_off()
+            self.GraphWidget.canvas.draw() 
 
 
 if __name__=="__main__":
