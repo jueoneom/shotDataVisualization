@@ -6,6 +6,7 @@ from PyQt5 import uic
 from PyQt5.QtCore import pyqtSlot
 import numpy as np 
 import matplotlib.pyplot as plt
+import networkx as nx
 import pandas as pd
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
@@ -63,6 +64,14 @@ class MyWindow(QMainWindow, form_class):
                 Z.append(self.data[i][1])
             
             self.GraphWidget.canvas.axes.scatter(X,Y,Z,color='red')
+            
+            for i,j in enumerate(Y,Z):
+                y=np.array(i,0,k)
+                z=np.array(0,j,k)
+                self.GraphWidget.canvas.axes.plot(X,y,z,color='white', alpha=0.5)
+
+            
+            
             # self.GraphWidget.canvas.axes.set_axis_off()
             self.GraphWidget.canvas.draw() 
 
