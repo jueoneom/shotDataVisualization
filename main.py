@@ -6,11 +6,10 @@ from PyQt5 import uic
 from PyQt5.QtCore import pyqtSlot
 import numpy as np 
 import matplotlib.pyplot as plt
-import networkx as nx
 import pandas as pd
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
-
+import networkx as nx
 
 
 form_class=uic.loadUiType("main.ui")[0]
@@ -32,7 +31,7 @@ class MyWindow(QMainWindow, form_class):
         self.addToolBar(NavigationToolbar(self.GraphWidget.canvas, self))
 
         self.loadFileBtn.clicked.connect(self.loadFile_clicked)
-        self.makeGraphBtn.clicked.connect(self.makeGraph_clicked)
+        self.makeGraphBtn.clicked.connect(self.generateGraph_clicked)
     
     @pyqtSlot()
     def loadFile_clicked(self):
@@ -53,27 +52,79 @@ class MyWindow(QMainWindow, form_class):
         if not self.data:
             return
         else:
-            X = []
-            Y = []
-            Z=[]
-            # X, Y = np.meshgrid(X, Y)
-            # Z = X**2 + Y**3
-            for i in range(len(self.data)):
-                X.append(i)
-                Y.append(self.data[i][0])
-                Z.append(self.data[i][1])
+            # X = []
+            # Y = []
+            # Z=[]
+            X = np.arange(-5, 5, 0.25)
+            Y = np.arange(-5, 5, 0.25)
+            X, Y = np.meshgrid(X, Y)
+            Z = X**2 + Y**3
+            # for i in range(len(self.data)):
+            #     X.append(i)
+            #     Y.append(self.data[i][0])
+            #     Z.append(self.data[i][1])
+        
+        self.GraphWidget.canvas.axes.plot_wireframe(X, Y, Z, color='white')
+            # G = nx.erdos_renyi_graph(500, 0.5, seed=123, directed=False)
+            # pos = nx.get_node_attributes(G, 'pos')
+            # n=G.number_of_nodes()
+            # edge_max = max([G.degree(i) for i in range(n)])
+            # colors = [plt.cm.plasma(G.degree(i)/edge_max) for i in range(n)] 
             
-            self.GraphWidget.canvas.axes.scatter(X,Y,Z,color='red')
-            
-            for i,j in enumerate(Y,Z):
-                y=np.array(i,0,k)
-                z=np.array(0,j,k)
-                self.GraphWidget.canvas.axes.plot(X,y,z,color='white', alpha=0.5)
+            # with plt.style.context(('ggplot')):
+            #     for key, value in pos.items():
+            #         xi = value[0]
+            #         yi = value[1]
+            #         zi = value[2]
+            #         self.canvas.axes.scatter(xi, yi, zi, c=colors[key], s=20+20*G.degree(key), edgecolors='k', alpha=0.7)
+                
 
+
+        self.GraphWidget.canvas.axes.set_axis_off()
+        self.GraphWidget.canvas.draw() 
+
+    def generateGraph_clicked(self):
+        self.GraphWidget.canvas.axes.clear()
+        if not self.data:
+            return
+    
+        pos={i: (self.data[i][0]+i%5,self.data[i][0]+self.data[i][1], self.data[i][2]+self.data[i][3]) for i in range(len(self.data))}
+    
+        G = nx.random_geometric_graph(len(self.data), 0.25, pos=pos)
+        
+        # nx.draw_networkx_nodes(temp,pos,node_size=400,alpha=1.0,node_shape='o',node_color='white')
+        # nx.draw_networkx_edges(temp, pos, width=1, alpha=0.8, edge_color='crimson')
+        
+        pos = nx.get_node_attributes(G, 'pos')
+        n = G.number_of_nodes()
+        edge_max = max([G.degree(i) for i in range(n)])
+        print(edge_max)
+        colors = [plt.cm.plasma(G.degree(i)/edge_max) for i in range(n)] 
+
+        with plt.style.context(('ggplot')):
             
+            for key, value in pos.items():
+                xi = value[0]
+                yi = value[1]
+                zi = value[2]
+                self.GraphWidget.canvas.axes.scatter(xi, yi, zi, c=np.array([colors[key]]), s=20+20*G.degree(key), edgecolors='k', alpha=0.7)
             
-            # self.GraphWidget.canvas.axes.set_axis_off()
-            self.GraphWidget.canvas.draw() 
+            print(pos)
+            for i,j in enumerate(G.edges()):
+                x = np.array((pos[j[0]][0], pos[j[1]][0]))
+                y = np.array((pos[j[0]][1], pos[j[1]][1]))
+                z = np.array((pos[j[0]][2], pos[j[1]][2]))
+                print(j, x, y, z)
+                self.GraphWidget.canvas.axes.plot(x, y, z, c='white', alpha=0.5)
+        
+                
+
+        self.GraphWidget.canvas.axes.view_init(30, 0)
+        self.GraphWidget.canvas.axes.set_axis_off()
+        self.GraphWidget.canvas.draw() 
+
+
+
 
 
 if __name__=="__main__":
