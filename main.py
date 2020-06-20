@@ -83,23 +83,39 @@ class MyWindow(QMainWindow, form_class):
         self.GraphWidget.canvas.axes.set_axis_off()
         self.GraphWidget.canvas.draw() 
 
+    def sigmoid(self, x):
+        return 1/(1+np.exp(-x))
+
+    def softmax(self, x):
+        e_x = np.exp(x-np.max(x))
+        return e_x / e_x.sum()
+
     def generateGraph_clicked(self):
         self.GraphWidget.canvas.axes.clear()
         if not self.data:
             return
-    
-        pos={i: (self.data[i][0]+i%5,self.data[i][0]+self.data[i][1], self.data[i][2]+self.data[i][3]) for i in range(len(self.data))}
-    
-        G = nx.random_geometric_graph(len(self.data), 0.25, pos=pos)
+        LENGTH=len(self.data)
+        shot_size = self.softmax(np.array([1.0, 2.0, 3.0, 4.0, 5.0, 6.0]))
+        shot_angle = self.softmax(np.array([1.0,2.0,3.0]))
+        sub_obj = self.softmax(np.array([1.0, 2.0, 3.0, 4.0]))
+        pos={i: (self.sigmoid(self.data[i][0]*shot_size[self.data[i][0]-1]),self.sigmoid(self.data[i][1]*shot_angle[self.data[i][1]-1]), self.sigmoid((self.data[i][2]+self.data[i][3]))) for i in range(len(self.data))}
+        # pos={i: (shot_size[self.data[i][0]-1],shot_angle[self.data[i][1]-1], sub_obj[self.data[i][2]-1+self.data[i][3]-1]) for i in range(len(self.data))}
+        # pos={i: (self.sigmoid(self.data[i-LENGTH][0]),self.sigmoid(self.data[i-LENGTH][1]), self.sigmoid(self.data[i-LENGTH][2]+(self.data[i-LENGTH][3])*3)) for i in range(LENGTH, LENGTH*2)}
         
+    
+            
+
+         
+        G = nx.random_geometric_graph(len(self.data), 0.25, pos=pos)
+        # G=nx.geographical_threshold_graph(20,50,pos=pos)
         # nx.draw_networkx_nodes(temp,pos,node_size=400,alpha=1.0,node_shape='o',node_color='white')
         # nx.draw_networkx_edges(temp, pos, width=1, alpha=0.8, edge_color='crimson')
         
         pos = nx.get_node_attributes(G, 'pos')
         n = G.number_of_nodes()
         edge_max = max([G.degree(i) for i in range(n)])
-        print(edge_max)
         colors = [plt.cm.plasma(G.degree(i)/edge_max) for i in range(n)] 
+        
 
         with plt.style.context(('ggplot')):
             
@@ -107,9 +123,8 @@ class MyWindow(QMainWindow, form_class):
                 xi = value[0]
                 yi = value[1]
                 zi = value[2]
-                self.GraphWidget.canvas.axes.scatter(xi, yi, zi, c=np.array([colors[key]]), s=20+20*G.degree(key), edgecolors='k', alpha=0.7)
+                self.GraphWidget.canvas.axes.scatter(xi, yi, zi, c=np.array([colors[key]]), s=20+20*G.degree(key), alpha=0.7)
             
-            print(pos)
             for i,j in enumerate(G.edges()):
                 x = np.array((pos[j[0]][0], pos[j[1]][0]))
                 y = np.array((pos[j[0]][1], pos[j[1]][1]))
@@ -120,7 +135,7 @@ class MyWindow(QMainWindow, form_class):
                 
 
         self.GraphWidget.canvas.axes.view_init(30, 0)
-        self.GraphWidget.canvas.axes.set_axis_off()
+        # self.GraphWidget.canvas.axes.set_axis_off()
         self.GraphWidget.canvas.draw() 
 
 

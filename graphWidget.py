@@ -47,7 +47,7 @@ class GraphWidget(QWidget):
                 print(j, x, y, z)
                 self.canvas.axes.plot(x, y, z, c='white', alpha=0.5)
         self.canvas.axes.view_init(30, 0)
-        self.canvas.axes.set_axis_off()
+        # self.canvas.axes.set_axis_off()
 
         # self.canvas.axes.set_axis_off()
         self.setLayout(hLayout)
