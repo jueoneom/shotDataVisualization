@@ -1,9 +1,10 @@
 import sys
 import os
-from loadFile import read_excel
+from file_management.load_file import read_excel
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import Qt
 import numpy as np 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -19,7 +20,7 @@ class MyWindow(QMainWindow, form_class):
         super().__init__()
         self.left=10
         self.top=10
-        self.title='shotDataVisualization'
+        self.title='샷 데이터 시각화 프로그램'
         self.width=640
         self.height=400
         self.setupUi(self)
@@ -32,10 +33,10 @@ class MyWindow(QMainWindow, form_class):
 
         self.loadFileBtn.clicked.connect(self.loadFile_clicked)
         self.makeGraphBtn.clicked.connect(self.generateGraph_clicked)
-    
+        self.shotsize_chbox.stateChanged.connect(self.check_shotsize)
+        self.shotangle_chbox.stateChanged.connect(self.check_shotsize)
     @pyqtSlot()
     def loadFile_clicked(self):
-        # QMessageBox.about(self, "message", "clicked")
         fname=QFileDialog.getOpenFileName()
         if fname[0]:
             fileName=os.path.basename(fname[0])
@@ -44,8 +45,6 @@ class MyWindow(QMainWindow, form_class):
             if filePath[-1]=='.xlsx':
                 self.data= read_excel(fname[0])
                 print(self.data)
-
-
     @pyqtSlot()
     def makeGraph_clicked(self):
         self.GraphWidget.canvas.axes.clear()
@@ -77,11 +76,17 @@ class MyWindow(QMainWindow, form_class):
             #         yi = value[1]
             #         zi = value[2]
             #         self.canvas.axes.scatter(xi, yi, zi, c=colors[key], s=20+20*G.degree(key), edgecolors='k', alpha=0.7)
-                
-
 
         self.GraphWidget.canvas.axes.set_axis_off()
         self.GraphWidget.canvas.draw() 
+
+    def check_shotsize(self, state):
+        if state == Qt.Checked:
+            print("a")
+        else:
+            print("b")
+
+
 
     def sigmoid(self, x):
         return 1/(1+np.exp(-x))
