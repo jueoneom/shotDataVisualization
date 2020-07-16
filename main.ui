@@ -52,7 +52,7 @@
     </layout>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget_2">
-    <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0,0,0,0,0">
+    <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0,0,0,0,0,0">
      <property name="sizeConstraint">
       <enum>QLayout::SetDefaultConstraint</enum>
      </property>
@@ -132,7 +132,14 @@
      <item>
       <widget class="QPushButton" name="makeGraphBtn">
        <property name="text">
-        <string>그래프 그리기</string>
+        <string>그래프 그리기 1</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="makeGraphBtn_2">
+       <property name="text">
+        <string>그래프 그리기 2</string>
        </property>
       </widget>
      </item>

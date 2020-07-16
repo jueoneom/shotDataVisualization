@@ -1,8 +1,5 @@
 import numpy as np
 import pandas as pd
-import os 
-import xlrd
-
 def read_excel(fname):
     
     df=pd.read_excel(fname, 
