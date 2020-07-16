@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-# shotDataVisualization
-
-**프로젝트 명 : 영화 샷 & 씬 데이터 그래프 시각화 프로그램
-
-=======
-# shot-data Visualization
 
 ### 프로젝트 명 : 영화 샷 & 씬 데이터 그래프 시각화 프로그램 
 수집된 영화의 샷 데이터 excel 파일을 기반으로 데이터를 그래프로 시각화합니다. 
@@ -18,4 +11,5 @@
   <img width="600" alt="A3E3E9C6-C2A0-4BDB-857E-2E8E12F1D7A2" src="https://user-images.githubusercontent.com/34650638/85305579-369ea380-b4e8-11ea-897c-dcb7a124b0dc.png">
 
 </div>
->>>>>>> c9112d3c2ead10fd8e3e2d473093429c948cd32b
+
+![샷-데이터-시각화-프로그램](https://user-images.githubusercontent.com/34650638/87719089-ca187b00-c7ed-11ea-9314-066de47f060c.png)
