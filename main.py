@@ -2,6 +2,7 @@ import sys
 import os
 from file_management.load_file import read_excel
 from math_functions.math_function import *
+from dialogs.generate_dialog import *
 from PyQt5.QtWidgets import *
 from PyQt5 import uic
 from PyQt5.QtCore import pyqtSlot
@@ -13,6 +14,8 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 import networkx as nx
 
+SHOT_SIZE, SHOT_ANGLE, SUB_OBJ = 0, 1, 2
+data_labels = {0: ("", "extreme close-up", "close-up", "middle", "full", "long", "extreme long"), 1: ("", "high", "eye", "low"), 2: ("", "obj", "sub")}
 
 form_class=uic.loadUiType("main.ui")[0]
 
@@ -28,16 +31,12 @@ class MyWindow(QMainWindow, form_class):
         self.setWindowTitle(self.title)
         self.label=self.fileNameLabel
         self.data=[]
-        # self.figure=plt.Figure()
-        # self.canvas=FigureCanvas(self.figure)
         self.addToolBar(NavigationToolbar(self.GraphWidget.canvas, self))
 
         self.loadFileBtn.clicked.connect(self.loadFile_clicked)
         self.makeGraphBtn.clicked.connect(self.generateGraph_clicked)
         self.makeGraphBtn_2.clicked.connect(self.make_graph)
-        self.shotsize_chbox.stateChanged.connect(self.check_shotsize)
-        self.shotangle_chbox.stateChanged.connect(self.check_shotsize)
-   
+        
     @pyqtSlot()
     def loadFile_clicked(self):
         fname=QFileDialog.getOpenFileName()
@@ -49,24 +48,25 @@ class MyWindow(QMainWindow, form_class):
                 self.data= read_excel(fname[0])
                 print(self.data)
 
-    def check_shotsize(self, state):
-        if state == Qt.Checked:
-            print("a")
-        else:
-            print("b")
+    def check_axis(self):
+        if not self.axis_checkbox.isChecked(): 
+            self.GraphWidget.canvas.axes.set_axis_off()
+
+    def check_color_standard(self):
+        if self.color_radio_1.isChecked(): return (SHOT_SIZE, 6)
+        elif self.color_radio_2.isChecked(): return (SHOT_ANGLE, 3)
+        elif self.color_radio_3.isChecked(): return (SUB_OBJ, 2)
+
 
     def make_graph(self):
         self.GraphWidget.canvas.axes.clear()
         if not self.data:
-            error_msg = QMessageBox()
-            error_msg.question(self, 'error message','데이터를 먼저 불러와주세요.', QMessageBox.Yes)
-
+            generate_messagebox(self, '[경고 메시지]', '데이터를 불러오지 않아 예제 데이터를 출력합니다.')
             z_line = np.linspace(0, 15, 1000)
             x_line = np.cos(z_line)
             y_line = np.sin(z_line)
             self.GraphWidget.canvas.axes.plot(x_line, y_line, z_line, 'gray')
             
-     
             z_points = 15 * np.random.random(100)
             x_points = np.cos(z_points) + 0.1 * np.random.randn(100)
             y_points = np.sin(z_points) + 0.1 * np.random.randn(100)
@@ -74,21 +74,34 @@ class MyWindow(QMainWindow, form_class):
             self.GraphWidget.canvas.axes.scatter(x_points, y_points, z_points, c=z_points, cmap='hsv')
             self.GraphWidget.canvas.axes.plot(x_points, y_points, z_points, 'white')
         else:
-            x_points= [data[0] * i for i, data in enumerate(self.data, 1)]
-            y_points= [data[1] * i for i, data in enumerate(self.data, 1)]
-            z_points= [data[2] * i for i, data in enumerate(self.data, 1)]
+            x_points = [data[SHOT_SIZE] * i for i, data in enumerate(self.data, 1)]
+            y_points = [data[SHOT_ANGLE] * i for i, data in enumerate(self.data, 1)]
+            z_points = [data[SUB_OBJ] * i for i, data in enumerate(self.data, 1)]
+            color_data = self.check_color_standard()
+            c_points = [data[color_data[0]] for data in self.data]
+            
+            if self.label_checkbox.isChecked():
+                c_list = [plt.cm.rainbow(a) for a in np.linspace(0.0, 1.0, len(set(c_points)))]
+                for i in range(len(c_list)):
+                    self.GraphWidget.canvas.axes.scatter(0, 0, 0, c=c_list[i],  label='{}'.format(data_labels[color_data[0]][list(set(c_points))[i]]) )
 
-            self.GraphWidget.canvas.axes.scatter(x_points, y_points, z_points, c=z_points, cmap='hsv')
+
+            self.GraphWidget.canvas.axes.scatter(x_points, y_points, z_points, c = c_points, cmap = plt.cm.get_cmap('rainbow',color_data[1]) )
             self.GraphWidget.canvas.axes.plot(x_points, y_points, z_points, 'white')
         
+        self.GraphWidget.canvas.axes.set_xlabel("shot-size")
+        self.GraphWidget.canvas.axes.set_ylabel("shot-angle")
+        self.GraphWidget.canvas.axes.set_zlabel("subj-obj")
+        self.GraphWidget.canvas.axes.legend()
         self.GraphWidget.canvas.axes.view_init(30, 0)
-        # self.GraphWidget.canvas.axes.set_axis_off()
+        self.check_axis()
         self.GraphWidget.canvas.draw() 
 
 
     def generateGraph_clicked(self):
         self.GraphWidget.canvas.axes.clear()
         if not self.data:
+            generate_messagebox(self, '[경고 메시지]', '데이터를 불러오지 않아 데이터를 출력할 수 없습니다.')
             return
         LENGTH=len(self.data)
         shot_size = softmax(np.array([1.0, 2.0, 3.0, 4.0, 5.0, 6.0]))
@@ -122,11 +135,8 @@ class MyWindow(QMainWindow, form_class):
                 
 
         self.GraphWidget.canvas.axes.view_init(30, 0)
-        # self.GraphWidget.canvas.axes.set_axis_off()
+        self.check_axis()
         self.GraphWidget.canvas.draw() 
-
-
-
 
 
 if __name__=="__main__":

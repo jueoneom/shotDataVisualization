@@ -27,10 +27,6 @@ class GraphWidget(QWidget):
         colors = [plt.cm.plasma(G.degree(i)/edge_max) for i in range(n)] 
 
         self.canvas.axes = self.fig.gca(projection='3d')
-        # # ax=self.fig.add_subplot(111,projection='3d')
-        # self.canvas.axes.scatter(X,Y,Z,color='white')
-        # # ax.plot_wireframe(X, Y, Z, color='white')
-        # # ax=plt.axes(projection='3d')
         
         with plt.style.context(('ggplot')):
             
@@ -44,12 +40,10 @@ class GraphWidget(QWidget):
                 x = np.array((pos[j[0]][0], pos[j[1]][0]))
                 y = np.array((pos[j[0]][1], pos[j[1]][1]))
                 z = np.array((pos[j[0]][2], pos[j[1]][2]))
-                print(j, x, y, z)
                 self.canvas.axes.plot(x, y, z, c='white', alpha=0.5)
+        self.canvas.axes.set_xlabel("x")
+        self.canvas.axes.set_ylabel("y")
         self.canvas.axes.view_init(30, 0)
-        # self.canvas.axes.set_axis_off()
-
-        # self.canvas.axes.set_axis_off()
         self.setLayout(hLayout)
         self.canvas.draw()
 

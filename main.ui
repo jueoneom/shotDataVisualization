@@ -18,7 +18,7 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>901</width>
+     <width>894</width>
      <height>602</height>
     </rect>
    </property>
@@ -52,7 +52,7 @@
     </layout>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget_2">
-    <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0,0,0,0,0,0">
+    <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0,0,0,0,0,0,0,0">
      <property name="sizeConstraint">
       <enum>QLayout::SetDefaultConstraint</enum>
      </property>
@@ -61,7 +61,7 @@
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>40</height>
+         <height>35</height>
         </size>
        </property>
        <property name="maximumSize">
@@ -132,15 +132,86 @@
      <item>
       <widget class="QPushButton" name="makeGraphBtn">
        <property name="text">
-        <string>그래프 그리기 1</string>
+        <string>그래프 그리기(구버전) </string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="makeGraphBtn_2">
        <property name="text">
-        <string>그래프 그리기 2</string>
+        <string>시계열 그래프 그리기</string>
        </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignVCenter">
+      <widget class="QWidget" name="widget_5" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>35</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>10000</width>
+         <height>5</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="groupBox_3">
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>200</height>
+        </size>
+       </property>
+       <property name="title">
+        <string>color 기준</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QRadioButton" name="color_radio_1">
+            <property name="text">
+             <string>shotsize</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="color_radio_2">
+            <property name="maximumSize">
+             <size>
+              <width>80</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>angle</string>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="color_radio_3">
+            <property name="text">
+             <string>sub-obj</string>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
      </item>
      <item>
@@ -192,62 +263,55 @@
            <number>5</number>
           </property>
           <item>
-           <widget class="QCheckBox" name="shotsize_chbox">
-            <property name="text">
-             <string>shot-size</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="shotangle_chbox">
-            <property name="text">
-             <string>shot angle</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="subobj_chbox">
-            <property name="text">
-             <string>subj-obj</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="isperson_chbox">
-            <property name="text">
-             <string>isPeople</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="isinsert_chbox">
-            <property name="text">
-             <string>isInsert</string>
-            </property>
-            <property name="checked">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="time_chbox">
+           <widget class="QPushButton" name="shotsize_graph_btn">
             <property name="enabled">
              <bool>false</bool>
             </property>
             <property name="text">
-             <string>time</string>
+             <string>shot-size 부분 그래프</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="shotangle_graph_btn">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>shot-angle 부분 그래프</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="subobj_graph_btn">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>sub-obj 부분 그래프</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="axis_checkbox">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>축 표시하기</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="label_checkbox">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>레이블 표시하기</string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -264,11 +328,7 @@
        <property name="title">
         <string>선택 데이터 정보</string>
        </property>
-       <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="0">
-         <widget class="QListView" name="listView"/>
-        </item>
-       </layout>
+       <layout class="QGridLayout" name="gridLayout_2"/>
       </widget>
      </item>
      <item>
