@@ -78,7 +78,7 @@ class MyWindow(QMainWindow, form_class):
             y_points = [data[SHOT_ANGLE] * i for i, data in enumerate(self.data, 1)]
             z_points = [data[SUB_OBJ] * i for i, data in enumerate(self.data, 1)]
             color_data = self.check_color_standard()
-            c_points = [data[color_data[0]] for data in self.data]
+            c_points = [int(data[color_data[0]]) for data in self.data]
             
             if self.label_checkbox.isChecked():
                 c_list = [plt.cm.rainbow(a) for a in np.linspace(0.0, 1.0, len(set(c_points)))]
